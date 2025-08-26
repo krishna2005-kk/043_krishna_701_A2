@@ -1,0 +1,11 @@
+<nav>
+  <a href="/">User Site</a> |
+  <% if(admin){ %>
+    <a href="/admin/categories">Admin Categories</a> |
+    <a href="/admin/products">Admin Products</a> |
+    <a href="/admin/logout">Logout</a>
+  <% } else { %>
+    <a href="/admin/login">Admin Login</a>
+  <% } %>
+</nav>
+<hr>

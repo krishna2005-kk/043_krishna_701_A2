@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Success</title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body>
+  <div class="success-container">
+    <h2>Registration Successful</h2>
+    <table class="result-table">
+      <tr><th>Username</th><td><%= data.username %></td></tr>
+      <tr><th>Email</th><td><%= data.email %></td></tr>
+      <tr><th>Gender</th><td><%= data.gender %></td></tr>
+      <tr><th>Hobbies</th><td><%= data.hobbies.join(', ') %></td></tr>
+      <tr>
+        <th>Profile Pic</th>
+        <td>
+          <img src="/uploads/profile_pics/<%= data.profile_pic %>" height="80"/>
+          <a href="/download/profile/<%= data.profile_pic %>">Download</a>
+        </td>
+      </tr>
+      <tr>
+        <th>Other Pics</th>
+        <td>
+          <% if(data.other_pics.length === 0) { %>
+            None
+          <% } else { %>
+            <% data.other_pics.forEach(pic => { %>
+              <img src="/uploads/other_pics/<%= pic %>" height="80"/>
+              <a href="/download/other/<%= pic %>">Download</a>
+              <br>
+            <% }) %>
+          <% } %>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <% // Build downloadall link with parameter %>
+    <a class="btn"
+      href="/downloadall/<%= data.username %>/<%= data.profile_pic %>/<%= data.other_pics.length ? data.other_pics.join('&') : 'none' %>/<%= jsonPath.replace('data/','') %>">
+      Download All Data & Files (ZIP)
+    </a>
+    <br><br>
+    <a class="btn" href="/">Register Another User</a>
+  </div>
+</body>
+</html>

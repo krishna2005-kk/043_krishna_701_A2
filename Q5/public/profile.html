@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Profile</title></head>
+<body>
+  <h2>Employee Profile</h2>
+  <div id="profile"></div>
+  <button id="toLeave">Apply Leave</button>
+  <button id="logout">Logout</button>
+<script>
+async function loadProfile() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = '/login.html'; return; }
+  const res = await fetch('/api/employee/profile', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  if (!res.ok) { localStorage.removeItem('token'); location.href = '/login.html'; return; }
+  const data = await res.json();
+  document.getElementById('profile').innerHTML = 
+    '<p>Name: ' + data.name + '</p>' +
+    '<p>EmpID: ' + data.empId + '</p>' +
+    '<p>Email: ' + data.email + '</p>' +
+    '<p>Salary: ' + (data.salary && data.salary.total) + '</p>';
+}
+document.getElementById('logout').addEventListener('click', () => {
+  localStorage.removeItem('token'); localStorage.removeItem('empId'); localStorage.removeItem('name');
+  location.href = '/login.html';
+});
+document.getElementById('toLeave').addEventListener('click', () => location.href = '/leave.html');
+loadProfile();
+</script>
+</body>
+</html>

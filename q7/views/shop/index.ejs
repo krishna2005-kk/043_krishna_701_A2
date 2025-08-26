@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+<h2>Shop - Products</h2>
+
+<form method="get">
+  <select name="category" onchange="this.form.submit()">
+    <option value="">All Categories</option>
+    <% cats.forEach(c=>{ %>
+      <option value="<%= c._id %>" <%= selected==c._id ? "selected":"" %>>
+        <%= c.name %>
+      </option>
+    <% }) %>
+  </select>
+</form>
+<br>
+<ul>
+  <% prods.forEach(p=>{ %>
+    <li><%= p.name %> – $<%= p.price %> (Category: <%= p.category ? p.category.name : "None" %>)</li>
+  <% }) %>
+</ul>

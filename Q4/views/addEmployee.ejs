@@ -1,0 +1,15 @@
+<%- include('partials/head') %>
+<h2>Add Employee</h2>
+<form method="POST" action="/employees">
+  <label>Name <input name="name" required /></label>
+  <label>Email <input type="email" name="email" required /></label>
+  <fieldset>
+    <legend>Salary</legend>
+    <label>Basic <input type="number" name="basic" step="0.01" /></label>
+    <label>HRA   <input type="number" name="hra"   step="0.01" /></label>
+    <label>DA    <input type="number" name="da"    step="0.01" /></label>
+  </fieldset>
+  <button type="submit">Create</button>
+</form>
+<% if (error) { %><p style="color:red"><%= error %></p><% } %>
+<%- include('partials/nav') %>

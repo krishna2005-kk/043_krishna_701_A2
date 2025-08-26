@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Leave Application</title></head>
+<body>
+  <h2>Apply Leave</h2>
+  <form id="leaveForm">
+    <label>Date: <input type="date" id="date" required></label><br/>
+    <label>Reason: <input id="reason" required></label><br/>
+    <button type="submit">Apply</button>
+  </form>
+  <h3>Your Leaves</h3>
+  <ul id="leaves"></ul>
+  <button id="back">Back to Profile</button>
+<script>
+async function loadLeaves() {
+  const token = localStorage.getItem('token');
+  if (!token) { location.href = '/login.html'; return; }
+  const res = await fetch('/api/leave/my', { headers: { 'Authorization': 'Bearer ' + token } });
+  if (!res.ok) { document.getElementById('leaves').innerText = 'Failed to load'; return; }
+  const data = await res.json();
+  const ul = document.getElementById('leaves');
+  ul.innerHTML = '';
+  data.forEach(l => {
+    const li = document.createElement('li');
+    li.innerText = new Date(l.date).toLocaleDateString() + ' - ' + l.reason + ' - ' + l.status;
+    ul.appendChild(li);
+  });
+}
+
+document.getElementById('leaveForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem('token');
+  const date = document.getElementById('date').value;
+  const reason = document.getElementById('reason').value;
+  const res = await fetch('/api/leave/apply', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ date, reason })
+  });
+  if (res.ok) {
+    alert('Leave applied');
+    loadLeaves();
+  } else {
+    alert('Failed to apply leave');
+  }
+});
+
+document.getElementById('back').addEventListener('click', () => location.href = '/profile.html');
+
+loadLeaves();
+</script>
+</body>
+</html>

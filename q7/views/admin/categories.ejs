@@ -1,0 +1,15 @@
+<%- include("../partials/header") %>
+<h2>Admin - Categories</h2>
+<form method="post">
+  <input name="name" placeholder="Category name" required>
+  <br>
+  <br>
+  <button>Add</button>
+</form>
+<br>
+<br>
+<ul>
+  <% cats.forEach(c=>{ %>
+    <li><%= c.name %></li>
+  <% }) %>
+</ul>

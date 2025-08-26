@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Currency Converter (Frontend)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    .card { border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 16px; }
+    label { display:block; margin-top:8px; }
+    input, select { padding:8px; width:100%; box-sizing:border-box; margin-top:4px; }
+    button { margin-top:12px; padding:10px 16px; }
+    #result { margin-top:12px; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Currency Converter (uses exchangerate.host via backend)</h2>
+    <label>From currency
+      <input id="from" value="USD" />
+    </label>
+    <label>To currency
+      <input id="to" value="INR" />
+    </label>
+    <label>Amount
+      <input id="amount" value="1" type="number" min="0" step="any"/>
+    </label>
+    <button id="convert">Convert</button>
+    <div id="result"></div>
+    <hr/>
+    <div>
+      <button id="fetchRates">Fetch latest rates (base = USD)</button>
+      <pre id="rates" style="white-space:pre-wrap"></pre>
+    </div>
+  </div>
+
+  <script>
+    const API_ROOT = "http://localhost:4000/api";
+
+    document.getElementById("convert").addEventListener("click", async () => {
+      const from = document.getElementById("from").value.trim() || "USD";
+      const to = document.getElementById("to").value.trim() || "EUR";
+      const amount = document.getElementById("amount").value || "1";
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = "Converting...";
+      try {
+        const resp = await fetch(`${API_ROOT}/convert?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}&amount=${encodeURIComponent(amount)}`);
+        if (!resp.ok) throw new Error("Network error " + resp.status);
+        const data = await resp.json();
+        if (data.success === false) {
+          resultDiv.textContent = "API error: " + JSON.stringify(data);
+          return;
+        }
+        resultDiv.textContent = `${amount} ${from} = ${data.result} ${to}  (rate: ${data.info?.rate ?? "n/a"})`;
+      } catch (err) {
+        resultDiv.textContent = "Error: " + err.message;
+      }
+    });
+
+    document.getElementById("fetchRates").addEventListener("click", async () => {
+      const ratesPre = document.getElementById("rates");
+      ratesPre.textContent = "Loading...";
+      try {
+        const resp = await fetch(`${API_ROOT}/latest?base=USD`);
+        const data = await resp.json();
+        ratesPre.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        ratesPre.textContent = "Error: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>

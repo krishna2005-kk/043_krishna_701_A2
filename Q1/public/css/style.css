@@ -1,0 +1,19 @@
+body { font-family: Arial, sans-serif; background: #f9f9f9; }
+h2 { margin: 20px 0; color: #234; }
+.reg-container, .success-container { 
+    background: #fff; padding: 25px 35px; margin: 40px auto; max-width: 450px; border-radius: 8px; box-shadow: 0 2px 8px #ddd; 
+}
+label { display:block; font-weight:bold; margin: 10px 0 4px 0; }
+input[type="text"], input[type="password"], input[type="email"], input[type="file"] {
+    width: 100%; padding:7px; margin-bottom: 7px; border:1px solid #bbb; border-radius:4px;
+}
+.form-radio, .form-check { margin-bottom: 10px; }
+.form-radio label, .form-check label { margin-right: 12px; font-weight:normal; }
+.submit-btn, .btn {
+    background: #3175d5; color:#fff; border:none; padding:8px 22px; border-radius:4px; cursor:pointer; font-weight:bold; text-decoration:none;
+}
+.submit-btn:hover, .btn:hover { background: #1e4d89; }
+.error-box { background: #fec8c8; color: #b51212; border: 1px solid #f08e8e; padding:8px; border-radius: 5px; margin-bottom:15px; }
+.result-table{ width:100%; margin:18px 0; border-collapse:collapse; }
+.result-table th, .result-table td { border:1px solid #ddd; padding:7px 10px; }
+img { margin:4px 8px 2px 0px; border:1px solid #aad; border-radius:4px; background:#eee;}

@@ -1,0 +1,25 @@
+<%- include("../partials/header") %>
+<h2>Admin - Products</h2>
+<form method="post">
+  <input name="name" placeholder="Product name" required>
+  <br>
+  <br>
+  <input name="price" placeholder="Price" required>
+  <br>
+  <br>
+  <select name="category" required>
+    <% cats.forEach(c=>{ %>
+      <option value="<%= c._id %>"><%= c.name %></option>
+    <% }) %>
+  </select>
+  <br>
+  <br>
+  <button>Add</button>
+</form>
+<br>
+<br>
+<ul>
+  <% prods.forEach(p=>{ %>
+    <li><%= p.name %> – $<%= p.price %> (Category: <%= p.category ? p.category.name : "None" %>)</li>
+  <% }) %>
+</ul>
